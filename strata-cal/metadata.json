@@ -1,0 +1,5 @@
+{
+  "name": "Strata Cal",
+  "description": "Upload 12 photos to generate a stylish, print-ready A4 landscape calendar. Automatically selects complementary fonts and colors for each month based on your photos.",
+  "requestFramePermissions": []
+}
