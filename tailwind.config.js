@@ -12,9 +12,10 @@ export default {
       },
       fontFamily: {
         handwriting: ['Dancing Script', 'cursive'],
-        sans: ['Montserrat', 'sans-serif'],
         serif: ['Playfair Display', 'serif'],
         display: ['Oswald', 'sans-serif'],
+        // Explicitly set sans to Inter to match the body font and typical UI expectations
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
