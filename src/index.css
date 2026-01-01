@@ -13,7 +13,6 @@
 @layer components {
   /* Custom font classes map to the API selection */
   .font-handwriting { font-family: 'Dancing Script', cursive; }
-  .font-sans { font-family: 'Montserrat', sans-serif; }
   .font-serif { font-family: 'Playfair Display', serif; }
   .font-display { font-family: 'Oswald', sans-serif; }
 }
