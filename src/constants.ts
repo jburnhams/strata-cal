@@ -36,6 +36,8 @@ export const INITIAL_MONTHS_STATE = MONTH_NAMES.map((name, index) => ({
 // UK Public Holidays & Major Christian Holidays Logic (Simplified for 2024-2026)
 // In a production app, use a robust library like 'date-holidays'
 export const getHolidaysForYear = (year: number) => {
+  if (isNaN(year) || year < 1000 || year > 3000) return [];
+
   const holidays: { date: string; name: string; type: 'public' | 'christian' }[] = [
     { date: `${year}-01-01`, name: "New Year's Day", type: 'public' },
     { date: `${year}-12-25`, name: "Christmas Day", type: 'christian' },

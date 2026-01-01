@@ -65,7 +65,8 @@ describe('App Integration', () => {
 
     // Select all text and type over it instead of clearing (which might trigger NaN/invalid state transiently)
     yearInput.focus();
-    await user.type(yearInput, '{selectall}2026');
+    await user.clear(yearInput);
+    await user.type(yearInput, '2026');
 
     expect(screen.getByText('Design your 2026 year')).toBeInTheDocument();
   });
