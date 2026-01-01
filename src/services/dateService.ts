@@ -50,6 +50,7 @@ export const generateMonthGrid = (year: number, monthIndex: number): DayCell[] =
 };
 
 const getHolidaysForDate = (date: Date, holidays: { date: string; name: string; type: 'public' | 'christian' }[]): Holiday[] => {
+  if (isNaN(date.getTime())) return [];
   const dateString = date.toISOString().split('T')[0];
   return holidays
     .filter(h => h.date === dateString)

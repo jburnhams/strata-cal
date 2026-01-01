@@ -375,8 +375,12 @@ export default function App() {
                   type="number"
                   value={year}
                   onChange={(e) => {
+                    if (e.target.value === '') {
+                      setYear(0);
+                      return;
+                    }
                     const val = parseInt(e.target.value);
-                    if (!isNaN(val)) setYear(val);
+                    if (!isNaN(val) && val > 0 && val < 10000) setYear(val);
                   }}
                   onBlur={(e) => {
                      // Ensure valid year on blur if needed
