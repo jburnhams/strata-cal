@@ -1,8 +1,13 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --color-primary: #007bff;
-  --color-secondary: #6c757d;
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 @layer components {
@@ -11,10 +16,4 @@
   .font-sans { font-family: 'Montserrat', sans-serif; }
   .font-serif { font-family: 'Playfair Display', serif; }
   .font-display { font-family: 'Oswald', sans-serif; }
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
