@@ -3,6 +3,14 @@ import viteConfig from './vite.config'
 
 export default mergeConfig(viteConfig, defineConfig({
   test: {
+    coverage: {
+      exclude: [
+        'src/main.tsx',
+        '**/*.d.ts',
+        '**/types.ts',
+        'tests/**',
+      ],
+    },
     projects: [
       {
         extends: true,
