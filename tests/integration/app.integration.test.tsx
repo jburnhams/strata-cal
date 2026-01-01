@@ -61,7 +61,12 @@ describe('App Integration', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const yearInput = screen.getByDisplayValue(String(new Date().getFullYear() + 1));
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+    const expectedDefaultYear = currentMonth >= 9 ? currentYear + 1 : currentYear;
+
+    const yearInput = screen.getByDisplayValue(String(expectedDefaultYear));
 
     // Select all text and type over it instead of clearing (which might trigger NaN/invalid state transiently)
     yearInput.focus();

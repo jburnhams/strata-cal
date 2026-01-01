@@ -63,7 +63,16 @@ const AutoScaleModal = ({ children, onClose }: AutoScaleModalProps) => {
 };
 
 export default function App() {
-  const [year, setYear] = useState(new Date().getFullYear() + 1);
+  const [year, setYear] = useState(() => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth(); // 0-11
+    // If it's October (9), November (10), or December (11), show next year
+    if (currentMonth >= 9) {
+      return currentYear + 1;
+    }
+    return currentYear;
+  });
   const [months, setMonths] = useState<MonthData[]>(INITIAL_MONTHS_STATE);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [viewMode, setViewMode] = useState<'thumbnail' | 'full'>('thumbnail');
