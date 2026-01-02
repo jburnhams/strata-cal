@@ -6,6 +6,7 @@ import { INITIAL_MONTHS_STATE, getHolidaysForYear } from './constants';
 import { MonthData, FontStyle } from './types';
 import { PhotoUploader } from './components/PhotoUploader';
 import { CalendarPreview } from './components/CalendarPreview';
+import { ProgressModal } from './components/ProgressModal';
 import { analyzeImageStyle, fileToBase64 } from './services/styleService';
 
 // Helper component for auto-scaling modal content
@@ -75,6 +76,8 @@ export default function App() {
   });
   const [months, setMonths] = useState<MonthData[]>(INITIAL_MONTHS_STATE);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [pdfProgress, setPdfProgress] = useState(0);
+  const [pdfStatus, setPdfStatus] = useState('');
   const [viewMode, setViewMode] = useState<'thumbnail' | 'full'>('thumbnail');
   const [previewMonthIndex, setPreviewMonthIndex] = useState<number | null>(null);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -206,6 +209,11 @@ export default function App() {
     }
 
     setIsGeneratingPdf(true);
+    setPdfProgress(0);
+    setPdfStatus('Initializing PDF generation...');
+
+    // Small timeout to allow UI to update
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     try {
       const pdf = new jsPDF({
@@ -216,8 +224,15 @@ export default function App() {
 
       const container = printRef.current;
       const pages = Array.from(container.children) as HTMLElement[];
+      const totalPages = pages.length;
 
-      for (let i = 0; i < pages.length; i++) {
+      for (let i = 0; i < totalPages; i++) {
+        setPdfStatus(`Processing page ${i + 1} of ${totalPages}...`);
+        setPdfProgress(i);
+
+        // Give UI time to repaint
+        await new Promise(resolve => setTimeout(resolve, 50));
+
         // Render page to canvas
         const canvas = await html2canvas(pages[i], {
           scale: 2, // Improve quality
@@ -234,10 +249,14 @@ export default function App() {
 
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
 
-        if (i < pages.length - 1) {
+        if (i < totalPages - 1) {
           pdf.addPage();
         }
       }
+
+      setPdfStatus('Finalizing PDF...');
+      setPdfProgress(totalPages);
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       pdf.save(`calendar-${year}.pdf`);
 
@@ -246,6 +265,8 @@ export default function App() {
       alert("Failed to generate PDF. Check if CORS is blocked for the images.");
     } finally {
       setIsGeneratingPdf(false);
+      setPdfStatus('');
+      setPdfProgress(0);
     }
   };
 
@@ -576,6 +597,15 @@ export default function App() {
               isInteractive={true}
             />
         </AutoScaleModal>
+      )}
+
+      {/* Progress Modal */}
+      {isGeneratingPdf && (
+        <ProgressModal
+          progress={pdfProgress}
+          total={months.length}
+          status={pdfStatus}
+        />
       )}
 
       {/*
