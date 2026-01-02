@@ -77,6 +77,7 @@ export default function App() {
   const [months, setMonths] = useState<MonthData[]>(INITIAL_MONTHS_STATE);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [pdfProgress, setPdfProgress] = useState(0);
+  const [pdfTotal, setPdfTotal] = useState(0);
   const [pdfStatus, setPdfStatus] = useState('');
   const [viewMode, setViewMode] = useState<'thumbnail' | 'full'>('thumbnail');
   const [previewMonthIndex, setPreviewMonthIndex] = useState<number | null>(null);
@@ -210,6 +211,7 @@ export default function App() {
 
     setIsGeneratingPdf(true);
     setPdfProgress(0);
+    setPdfTotal(0); // Will be updated shortly
     setPdfStatus('Initializing PDF generation...');
 
     // Small timeout to allow UI to update
@@ -225,6 +227,7 @@ export default function App() {
       const container = printRef.current;
       const pages = Array.from(container.children) as HTMLElement[];
       const totalPages = pages.length;
+      setPdfTotal(totalPages);
 
       for (let i = 0; i < totalPages; i++) {
         setPdfStatus(`Processing page ${i + 1} of ${totalPages}...`);
@@ -603,7 +606,7 @@ export default function App() {
       {isGeneratingPdf && (
         <ProgressModal
           progress={pdfProgress}
-          total={months.length}
+          total={pdfTotal || months.length * 2} // Fallback estimate if total not yet set
           status={pdfStatus}
         />
       )}
