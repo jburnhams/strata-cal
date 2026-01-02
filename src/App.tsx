@@ -365,7 +365,7 @@ export default function App() {
 
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-y-4">
           <div className="flex items-center gap-3">
             <div className="bg-blue-600 p-2 rounded-lg text-white">
               <CalendarIcon size={24} />
@@ -377,7 +377,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
              <div className="flex items-center bg-gray-100 rounded-md px-3 py-1.5 shadow-sm border border-gray-200">
                 <span className="text-xs text-gray-500 mr-2 uppercase tracking-wide font-bold">Year</span>
                 <input
